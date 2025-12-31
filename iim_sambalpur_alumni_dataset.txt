@@ -1,0 +1,98 @@
+============================================================
+IIM SAMBALPUR ALUMNI DATASET
+Generated: 2025-12-31 19:30:47
+Total Alumni Entries: 0
+Known Batches: 2015-17, 2016-18, 2017-19, 2018-20, 2019-21, 2020-22, 2021-23, 2022-24, 2023-25
+============================================================
+
+NOTE: This dataset contains only publicly available information
+from the official IIM Sambalpur website. No private data has been
+collected. For accuracy, all entries are sourced from public pages.
+
+============================================================
+BATCH INFORMATION
+============================================================
+
+BATCH: 2015-17
+ALUMNI_COUNT: 0
+PROGRAM: MBA (Post Graduate Programme in Management)
+INSTITUTION: IIM Sambalpur
+
+BATCH: 2016-18
+ALUMNI_COUNT: 0
+PROGRAM: MBA (Post Graduate Programme in Management)
+INSTITUTION: IIM Sambalpur
+
+BATCH: 2017-19
+ALUMNI_COUNT: 0
+PROGRAM: MBA (Post Graduate Programme in Management)
+INSTITUTION: IIM Sambalpur
+
+BATCH: 2018-20
+ALUMNI_COUNT: 0
+PROGRAM: MBA (Post Graduate Programme in Management)
+INSTITUTION: IIM Sambalpur
+
+BATCH: 2019-21
+ALUMNI_COUNT: 0
+PROGRAM: MBA (Post Graduate Programme in Management)
+INSTITUTION: IIM Sambalpur
+
+BATCH: 2020-22
+ALUMNI_COUNT: 0
+PROGRAM: MBA (Post Graduate Programme in Management)
+INSTITUTION: IIM Sambalpur
+
+BATCH: 2021-23
+ALUMNI_COUNT: 0
+PROGRAM: MBA (Post Graduate Programme in Management)
+INSTITUTION: IIM Sambalpur
+
+BATCH: 2022-24
+ALUMNI_COUNT: 0
+PROGRAM: MBA (Post Graduate Programme in Management)
+INSTITUTION: IIM Sambalpur
+
+BATCH: 2023-25
+ALUMNI_COUNT: 0
+PROGRAM: MBA (Post Graduate Programme in Management)
+INSTITUTION: IIM Sambalpur
+
+============================================================
+ALUMNI PROFILES
+============================================================
+
+No alumni entries found from public sources.
+To populate this dataset, manually add verified alumni information
+from official IIM Sambalpur publications and press releases.
+
+SAMPLE ENTRY FORMAT:
+
+==================== IIM SAMBALPUR ALUMNI ====================
+
+NAME: [Full Name]
+INSTITUTE: IIM Sambalpur
+PROGRAM: MBA
+BATCH: [e.g., 2020-22]
+
+CURRENT_ROLE: [Job Title]
+COMPANY: [Company Name]
+DOMAIN: [consulting | analytics | finance | marketing | operations | general]
+
+PUBLIC_HEADLINE:
+[Brief description from public source]
+
+PUBLIC_PROFILE_URL:
+[Source URL]
+
+DATA_SOURCE:
+[e.g., IIM Sambalpur Press Release / News Article]
+
+CONFIDENCE_LEVEL:
+high | medium | low
+
+NOTES:
+[Any additional notes]
+
+=============================================================
+

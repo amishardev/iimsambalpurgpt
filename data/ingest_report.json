@@ -1,0 +1,50 @@
+{
+  "total_sources": 561,
+  "successful_sources": 561,
+  "failed_sources": 0,
+  "total_chunks": 5789,
+  "avg_chunk_words": 401,
+  "top_sources": [
+    {
+      "url": "https://iimsambalpur.ac.in/IMPeC-2025/pdf/Vol1.pdf",
+      "chunks": 925
+    },
+    {
+      "url": "https://iimsambalpur.ac.in/IMPeC-2025/pdf/Vol2.pdf",
+      "chunks": 842
+    },
+    {
+      "url": "https://iimsambalpur.ac.in/IMPeC-2025/pdf/IMPeC_IIM_Sambalpur_Vol_3_with_Covers.pdf",
+      "chunks": 509
+    },
+    {
+      "url": "https://iimsambalpur.ac.in/IMPeC-2025/pdf/Abstract.pdf",
+      "chunks": 496
+    },
+    {
+      "url": "https://iimsambalpur.ac.in/wp-content/uploads/2025/05/Annual_Report_Final_Version_2023-24.pdf",
+      "chunks": 306
+    },
+    {
+      "url": "https://iimsambalpur.ac.in/wp-content/uploads/2025/08/Tender%20for%20the%20Selection%20of%20PMC%20for%20IIM%20Sambalpur%20Phase-II%20Work.pdf",
+      "chunks": 103
+    },
+    {
+      "url": "https://iimsambalpur.ac.in/wp-content/uploads/2025/06/Selection_of_Architect_Tender_for_Phase-II_work_of_IIM_sambalpur.pdf",
+      "chunks": 100
+    },
+    {
+      "url": "https://iimsambalpur.ac.in/wp-content/uploads/2023/06/PMC-Tender-of-IIM-Sambalpur.pdf",
+      "chunks": 96
+    },
+    {
+      "url": "https://iimsambalpur.ac.in/wp-content/uploads/2023/05/Regulation-IIM-Sambalpur-Gazette-publication.pdf",
+      "chunks": 89
+    },
+    {
+      "url": "https://iimsambalpur.ac.in/wp-content/uploads/2023/06/SITC-OF-ELECTRICALPANELS-ALLIEDWORKS_compressed.pdf",
+      "chunks": 42
+    }
+  ],
+  "timestamp": "2025-12-31T16:37:37.646Z"
+}

@@ -1,0 +1,17 @@
+==================== SOURCE ====================
+URL: https://iimsambalpur.ac.in/wp-content/uploads/2023/05/logo_header.png
+PAGE_TITLE: logo_header.png (1456×164)
+SOURCE_TYPE: course
+INSTITUTION: IIM Sambalpur
+LAST_UPDATED: unknown
+
+==================== TEXT ====================
+![](https://iimsambalpur.ac.in/wp-content/uploads/2023/05/logo_header.png)
+
+
+==================== METADATA ====================
+TAGS: 
+CONFIDENCE_LEVEL: high
+
+================================================
+
