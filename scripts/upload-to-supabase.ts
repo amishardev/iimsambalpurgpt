@@ -20,7 +20,7 @@ const EMBEDDING_DIM = 384;
 
 // Supabase credentials
 const SUPABASE_URL = process.env.NEXT_PUBLIC_SUPABASE_URL || 'https://ykviqtxnbmvomqiihynk.supabase.co';
-const SUPABASE_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InlrdmlxdHhuYm12b21xaWloeW5rIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc2NzE5Mzc2OSwiZXhwIjoyMDgyNzY5NzY5fQ.04jN2sbqsAKKgRi7Qqbn0oUbw2FJY4qqZh83HbniFIo';
+const SUPABASE_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY || '';
 
 interface Chunk {
     chunk_id: string;
