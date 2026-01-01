@@ -49,20 +49,48 @@ export async function retrieveChunks(
     const supabase = getSupabaseClient();
 
     try {
+        // Synonym map for better matching
+        const synonyms: Record<string, string[]> = {
+            'statistics': ['statistics', 'stats', 'p&s', 'probability'],
+            'mathematics': ['mathematics', 'math', 'maths', 'calculus', 'algebra'],
+            'professor': ['professor', 'prof', 'faculty', 'teaches', 'instructor'],
+            'syllabus': ['syllabus', 'curriculum', 'course', 'outline', 'topics'],
+            'schedule': ['schedule', 'timetable', 'calendar', 'timing', 'class'],
+            'data': ['data', 'dsai', 'ds&ai', 'datascience'],
+            'science': ['science', 'dsai', 'ds&ai'],
+            'semester': ['semester', 'sem', 'term', 'year'],
+            'first': ['first', '1st', 'sem-i', 'semester-1', 'sem-1'],
+            'yoga': ['yoga', 'meditation', 'mindfulness'],
+            'psychology': ['psychology', 'positive', 'behavioral'],
+        };
+
         // Extract meaningful keywords (min 3 chars, filter stopwords)
         const stopwords = new Set(['the', 'and', 'for', 'are', 'but', 'not', 'you', 'all', 'can', 'her', 'was', 'one', 'our', 'out', 'what', 'about', 'which', 'when', 'how', 'who', 'where', 'why', 'does', 'have', 'has', 'is', 'in', 'it', 'of', 'to', 'a', 'an', 'be', 'at', 'as', 'by', 'from', 'or', 'on', 'with', 'that', 'this']);
-        const keywords = query
+        let keywords = query
             .toLowerCase()
             .split(/\s+/)
             .filter(w => w.length >= 3 && !stopwords.has(w))
-            .slice(0, 5); // Limit to top 5 keywords
+            .slice(0, 5);
+
+        // Expand keywords with synonyms
+        const expandedKeywords = new Set<string>();
+        for (const kw of keywords) {
+            expandedKeywords.add(kw);
+            // Check if this keyword is a key or appears in synonym values
+            for (const [key, syns] of Object.entries(synonyms)) {
+                if (kw === key || syns.includes(kw)) {
+                    syns.forEach(s => expandedKeywords.add(s));
+                }
+            }
+        }
+        keywords = Array.from(expandedKeywords).slice(0, 10);
 
         if (keywords.length === 0) {
             console.log('[Retrieval] No meaningful keywords extracted');
             return [];
         }
 
-        console.log('[Retrieval] Searching with keywords:', keywords);
+        console.log('[Retrieval] Searching with expanded keywords:', keywords);
 
         // Build OR filter for ilike pattern matching
         const orFilters = keywords.map(k => `content.ilike.%${k}%,page_title.ilike.%${k}%`).join(',');

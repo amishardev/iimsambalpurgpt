@@ -223,5 +223,5 @@ export function getKeyStats(): { keyIndex: number; stats: KeyStats }[] {
  * Get the default model to use
  */
 export function getDefaultModel(): string {
-    return process.env.OPENROUTER_MODEL || 'deepseek/deepseek-chat';
+    return process.env.OPENROUTER_MODEL || 'google/gemini-2.0-flash-exp:free';
 }
