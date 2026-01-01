@@ -1,5 +1,6 @@
 'use client';
 
+import { useState } from 'react';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import remarkMath from 'remark-math';
@@ -123,23 +124,7 @@ export default function Message({ message }: MessageProps) {
 
                         {/* Sources */}
                         {message.sources && message.sources.length > 0 && (
-                            <div className="pt-3 border-t border-border">
-                                <p className="text-xs text-text-muted mb-2 font-medium">Sources:</p>
-                                <div className="flex flex-wrap gap-2">
-                                    {message.sources.map((source, i) => (
-                                        <a
-                                            key={i}
-                                            href={source.url}
-                                            target="_blank"
-                                            rel="noopener noreferrer"
-                                            className="inline-flex items-center gap-1 text-xs bg-background-card text-text-secondary hover:text-accent px-2 py-1 rounded-full border border-border transition-colors"
-                                        >
-                                            <ExternalLink size={10} />
-                                            {source.title || 'Source'}
-                                        </a>
-                                    ))}
-                                </div>
-                            </div>
+                            <SourceList sources={message.sources} />
                         )}
                     </div>
                 )}
@@ -149,6 +134,41 @@ export default function Message({ message }: MessageProps) {
             {isUser && (
                 <div className="flex-shrink-0 w-8 h-8 rounded-full bg-background-card border border-border flex items-center justify-center">
                     <User size={18} className="text-text-secondary" />
+                </div>
+            )}
+        </div>
+    );
+}
+
+function SourceList({ sources }: { sources: { url: string; title: string }[] }) {
+    const [isExpanded, setIsExpanded] = useState(false);
+
+    return (
+        <div className="pt-2 border-t border-border/50">
+            <button
+                onClick={() => setIsExpanded(!isExpanded)}
+                className="text-xs text-text-muted hover:text-text-primary flex items-center gap-1 transition-colors"
+            >
+                {isExpanded ? 'Hide Sources' : 'Show Sources'}
+                <span className="bg-background-card px-1.5 rounded text-[10px] border border-border">
+                    {sources.length}
+                </span>
+            </button>
+
+            {isExpanded && (
+                <div className="flex flex-wrap gap-2 mt-2 animate-fade-in">
+                    {sources.map((source, i) => (
+                        <a
+                            key={i}
+                            href={source.url}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="inline-flex items-center gap-1 text-xs bg-background-card text-text-secondary hover:text-accent px-2 py-1 rounded-full border border-border transition-colors truncate max-w-[200px]"
+                        >
+                            <ExternalLink size={10} className="flex-shrink-0" />
+                            <span className="truncate">{source.title || 'Source'}</span>
+                        </a>
+                    ))}
                 </div>
             )}
         </div>
