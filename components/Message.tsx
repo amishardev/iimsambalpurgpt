@@ -2,6 +2,9 @@
 
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
+import remarkMath from 'remark-math';
+import rehypeKatex from 'rehype-katex';
+import 'katex/dist/katex.min.css';
 import type { Message as MessageType } from '@/app/page';
 import { User, Bot, ExternalLink } from 'lucide-react';
 
@@ -26,8 +29,8 @@ export default function Message({ message }: MessageProps) {
             {/* Message Content */}
             <div
                 className={`max-w-[85%] ${isUser
-                        ? 'bg-background-card border border-border rounded-2xl rounded-tr-sm px-4 py-3'
-                        : ''
+                    ? 'bg-background-card border border-border rounded-2xl rounded-tr-sm px-4 py-3'
+                    : ''
                     }`}
             >
                 {isUser ? (
@@ -38,7 +41,8 @@ export default function Message({ message }: MessageProps) {
                         <div className="message-content text-text-primary">
                             {message.content ? (
                                 <ReactMarkdown
-                                    remarkPlugins={[remarkGfm]}
+                                    remarkPlugins={[remarkGfm, remarkMath]}
+                                    rehypePlugins={[rehypeKatex]}
                                     components={{
                                         // Custom heading renders
                                         h1: ({ children }) => (
