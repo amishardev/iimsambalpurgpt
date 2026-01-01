@@ -34,7 +34,7 @@ export async function POST(request: NextRequest) {
 
         // Step 1: Retrieve relevant chunks from vector DB
         console.log('[Chat API] Retrieving context for:', message.slice(0, 50));
-        const chunks = await retrieveRelevantChunks(message, 5);
+        const chunks = await retrieveRelevantChunks(message, 10); // Increased to 10 for better coverage
         console.log(`[Chat API] Retrieved ${chunks.length} chunks`);
 
         // Step 2: Build prompt with context

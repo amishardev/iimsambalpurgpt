@@ -40,7 +40,7 @@ async function generateQueryEmbedding(query: string): Promise<number[]> {
 }
 
 /**
- * Retrieve relevant chunks using vector similarity (Supabase pgvector)
+ * Retrieve relevant chunks using keyword search (Supabase)
  */
 export async function retrieveChunks(
     query: string,
@@ -49,47 +49,64 @@ export async function retrieveChunks(
     const supabase = getSupabaseClient();
 
     try {
-        // Try vector search first
-        const embedding = await generateQueryEmbedding(query);
+        // Extract meaningful keywords (min 3 chars, filter stopwords)
+        const stopwords = new Set(['the', 'and', 'for', 'are', 'but', 'not', 'you', 'all', 'can', 'her', 'was', 'one', 'our', 'out', 'what', 'about', 'which', 'when', 'how', 'who', 'where', 'why', 'does', 'have', 'has', 'is', 'in', 'it', 'of', 'to', 'a', 'an', 'be', 'at', 'as', 'by', 'from', 'or', 'on', 'with', 'that', 'this']);
+        const keywords = query
+            .toLowerCase()
+            .split(/\s+/)
+            .filter(w => w.length >= 3 && !stopwords.has(w))
+            .slice(0, 5); // Limit to top 5 keywords
 
-        if (embedding.length > 0) {
-            // Use pgvector similarity search
-            const { data, error } = await supabase.rpc('match_documents', {
-                query_embedding: embedding,
-                match_threshold: 0.5,
-                match_count: topK,
-            });
+        if (keywords.length === 0) {
+            console.log('[Retrieval] No meaningful keywords extracted');
+            return [];
+        }
 
-            if (error) throw error;
+        console.log('[Retrieval] Searching with keywords:', keywords);
 
-            return data.map((row: any) => ({
+        // Build OR filter for ilike pattern matching
+        const orFilters = keywords.map(k => `content.ilike.%${k}%,page_title.ilike.%${k}%`).join(',');
+
+        const { data, error } = await supabase
+            .from('chunks')
+            .select('id, source_url, page_title, content')
+            .or(orFilters)
+            .limit(topK * 3); // Fetch more, then score and rank
+
+        if (error) {
+            console.error('[Retrieval] Supabase error:', error);
+            throw error;
+        }
+
+        if (!data || data.length === 0) {
+            console.log('[Retrieval] No chunks found with keywords');
+            return [];
+        }
+
+        // Score chunks by keyword match count
+        const scoredChunks = data.map((row: any) => {
+            const contentLower = (row.content || '').toLowerCase();
+            const titleLower = (row.page_title || '').toLowerCase();
+            let score = 0;
+
+            for (const kw of keywords) {
+                if (contentLower.includes(kw)) score += 1;
+                if (titleLower.includes(kw)) score += 3; // Title matches are more relevant
+            }
+
+            return {
                 chunk_id: row.id,
                 source_url: row.source_url,
                 page_title: row.page_title,
                 text: row.content,
-                similarity: row.similarity,
-            }));
-        }
+                similarity: score / (keywords.length * 4), // Normalize
+            };
+        });
 
-        // Fallback: Full-text search using Supabase's text search
-        const { data, error } = await supabase
-            .from('chunks')
-            .select('id, source_url, page_title, content')
-            .textSearch('content', query.split(' ').join(' | '), {
-                type: 'websearch',
-                config: 'english',
-            })
-            .limit(topK);
-
-        if (error) throw error;
-
-        return (data || []).map((row: any, index: number) => ({
-            chunk_id: row.id,
-            source_url: row.source_url,
-            page_title: row.page_title,
-            text: row.content,
-            similarity: (topK - index) / topK, // Approximate similarity from order
-        }));
+        // Sort by score and return top-k
+        return scoredChunks
+            .sort((a, b) => b.similarity - a.similarity)
+            .slice(0, topK);
 
     } catch (error) {
         console.error('[Retrieval] Error querying Supabase:', error);
