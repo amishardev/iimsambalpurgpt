@@ -35,7 +35,19 @@ coverage/
 
 # Data files (can be large)
 data/embeddings.json
+downloaded_pdfs/
+pdf_chunks/
+scraped_data/
+pdf and docs/
+
+# Python
+__pycache__/
+*.pyc
 
 # Misc
 *.tsbuildinfo
 next-env.d.ts
+
+# Large generated datasets
+iim_sambalpur_dataset_master.txt
+iim_sambalpur_text_only_master.txt

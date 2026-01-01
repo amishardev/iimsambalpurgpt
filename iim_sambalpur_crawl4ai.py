@@ -20,6 +20,41 @@ MAX_PAGES = 3000
 CONCURRENT_REQUESTS = 3
 
 class RobustIIMScraper:
+    # Priority URLs to ensure comprehensive coverage
+    PRIORITY_SEED_URLS = [
+        # Faculty
+        "https://iimsambalpur.ac.in/faculty/",
+        "https://iimsambalpur.ac.in/faculty-directory/",
+        "https://iimsambalpur.ac.in/visiting-faculty/",
+        # Programs
+        "https://iimsambalpur.ac.in/programs/",
+        "https://iimsambalpur.ac.in/mba/",
+        "https://iimsambalpur.ac.in/executive-mba/",
+        "https://iimsambalpur.ac.in/phd/",
+        "https://iimsambalpur.ac.in/bs-data-science-ai/",
+        "https://iimsambalpur.ac.in/bs-management-public-policy/",
+        # Research
+        "https://www.iimsambalpur.ac.in/articles-publications/",
+        "https://iimsambalpur.ac.in/research/",
+        # Alumni
+        "https://iimsambalpur.ac.in/alumni/",
+        "https://iimsambalpur.ac.in/alumni-stories/",
+        # About
+        "https://iimsambalpur.ac.in/about-iim-sambalpur/",
+        "https://iimsambalpur.ac.in/vision-mission/",
+        "https://iimsambalpur.ac.in/board-of-governors/",
+        # Placements
+        "https://iimsambalpur.ac.in/placements/",
+        "https://iimsambalpur.ac.in/placement-statistics/",
+        # Campus & Life
+        "https://iimsambalpur.ac.in/campus/",
+        "https://iimsambalpur.ac.in/student-life/",
+        "https://iimsambalpur.ac.in/clubs-committees/",
+        # Admissions
+        "https://iimsambalpur.ac.in/admissions/",
+        "https://iimsambalpur.ac.in/fee-structure/",
+    ]
+    
     def __init__(self):
         self.visited_urls = set()
         self.queue = asyncio.Queue()
@@ -31,6 +66,11 @@ class RobustIIMScraper:
          
         # Load state logic omitted for simplicity, relying on file existence check
         
+        # Seed priority URLs first
+        for url in self.PRIORITY_SEED_URLS:
+            self.queue.put_nowait(url)
+        
+        # Then add base URL
         if self.queue.empty() and not self.visited_urls:
              self.queue.put_nowait(BASE_URL)
 
