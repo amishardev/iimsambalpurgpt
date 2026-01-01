@@ -34,7 +34,7 @@ export async function POST(request: NextRequest) {
 
         // Step 1: Retrieve relevant chunks from vector DB
         console.log('[Chat API] Retrieving context for:', message.slice(0, 50));
-        const chunks = await retrieveRelevantChunks(message, 10); // Increased to 10 for better coverage
+        const chunks = await retrieveRelevantChunks(message, 15); // Increased for better coverage
         console.log(`[Chat API] Retrieved ${chunks.length} chunks`);
 
         // Step 2: Build prompt with context
@@ -58,8 +58,8 @@ export async function POST(request: NextRequest) {
         const stream = await chatCompletionStream({
             model: getDefaultModel(),
             messages,
-            temperature: 0.7,
-            max_tokens: 2000,
+            temperature: 0.5,  // Lower for more focused responses
+            max_tokens: 4000,  // Increased for comprehensive answers
             stream: true,
         });
 
