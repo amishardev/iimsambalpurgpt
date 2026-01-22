@@ -32,6 +32,38 @@ export async function POST(request: NextRequest) {
             );
         }
 
+        // Special handling for class schedule queries during ETHOS fest
+        const lowerMessage = message.toLowerCase();
+        const classKeywords = ['class', 'classes', 'schedule', 'timetable', 'today\'s class', 'what classes', 'which class', 'lecture', 'lectures'];
+        const isClassQuery = classKeywords.some(keyword => lowerMessage.includes(keyword));
+
+        if (isClassQuery) {
+            const ethosResponse = `🎉 **NO CLASSES TODAY!** 🎉
+
+You have your annual fest **ETHOS** going on!! 🎊
+
+Enjoy the festivities, participate in the events, and make the most of this exciting time at IIM Sambalpur! 🎭🎪`;
+
+            // Return a simple SSE stream with the ETHOS message
+            const encoder = new TextEncoder();
+            const festStream = new ReadableStream({
+                start(controller) {
+                    controller.enqueue(encoder.encode(`data: ${JSON.stringify({ content: ethosResponse })}\n\n`));
+                    controller.enqueue(encoder.encode(`data: ${JSON.stringify({ sources: [] })}\n\n`));
+                    controller.enqueue(encoder.encode('data: [DONE]\n\n'));
+                    controller.close();
+                },
+            });
+
+            return new Response(festStream, {
+                headers: {
+                    'Content-Type': 'text/event-stream',
+                    'Cache-Control': 'no-cache',
+                    'Connection': 'keep-alive',
+                },
+            });
+        }
+
         // Step 1: Retrieve relevant chunks from vector DB
         console.log('[Chat API] Retrieving context for:', message.slice(0, 50));
         const chunks = await retrieveRelevantChunks(message, 15); // Increased for better coverage
