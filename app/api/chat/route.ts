@@ -65,15 +65,41 @@ Enjoy the festivities, participate in the events, and make the most of this exci
         }
 
         // Special handling for attendance queries
-        const attendanceKeywords = ['attendance', 'attended', 'absent', 'bunked', 'present', 'how many classes', 'grade drop', 'attendance percentage'];
+        const attendanceKeywords = ['attendance', 'attendence', 'attended', 'absent', 'bunked', 'present', 'how many classes', 'grade drop', 'attendance percentage', 'my attendance'];
         const isAttendanceQuery = attendanceKeywords.some(keyword => lowerMessage.includes(keyword));
 
         if (isAttendanceQuery) {
+            // Generate random attendance between 26-30 for each subject
+            const getRandomAttendance = () => Math.floor(Math.random() * 5) + 26; // 26 to 30
+            const totalClasses = 30;
+
+            const subjects = [
+                { name: 'Organizational Behavior (OB)', attended: getRandomAttendance() },
+                { name: 'Financial Accounting (FA)', attended: getRandomAttendance() },
+                { name: 'Marketing Management (MM)', attended: getRandomAttendance() },
+                { name: 'Quantitative Methods (QM)', attended: getRandomAttendance() },
+                { name: 'Economics (ECO)', attended: getRandomAttendance() },
+                { name: 'Business Communication (BC)', attended: getRandomAttendance() },
+            ];
+
+            const totalAttended = subjects.reduce((sum, s) => sum + s.attended, 0);
+            const totalPossible = subjects.length * totalClasses;
+            const overallPercentage = ((totalAttended / totalPossible) * 100).toFixed(1);
+
+            const subjectLines = subjects.map(s => {
+                const percentage = ((s.attended / totalClasses) * 100).toFixed(1);
+                return `| ${s.name} | ${s.attended}/${totalClasses} | ${percentage}% |`;
+            }).join('\n');
+
             const attendanceResponse = `📊 **Your Attendance Status**
 
-**Classes Attended:** 27 out of 30 classes ✅
+| Subject | Classes Attended | Percentage |
+|---------|-----------------|------------|
+${subjectLines}
 
-**Attendance Percentage:** 90% 📈
+---
+
+**Overall Attendance:** ${overallPercentage}% 📈
 
 **Grade Drop Status:** No grade drop as of now! 🎉
 
