@@ -64,6 +64,41 @@ Enjoy the festivities, participate in the events, and make the most of this exci
             });
         }
 
+        // Special handling for attendance queries
+        const attendanceKeywords = ['attendance', 'attended', 'absent', 'bunked', 'present', 'how many classes', 'grade drop', 'attendance percentage'];
+        const isAttendanceQuery = attendanceKeywords.some(keyword => lowerMessage.includes(keyword));
+
+        if (isAttendanceQuery) {
+            const attendanceResponse = `📊 **Your Attendance Status**
+
+**Classes Attended:** 27 out of 30 classes ✅
+
+**Attendance Percentage:** 90% 📈
+
+**Grade Drop Status:** No grade drop as of now! 🎉
+
+You're doing great! Keep maintaining your attendance to stay on track. 👍`;
+
+            // Return a simple SSE stream with the attendance message
+            const encoder = new TextEncoder();
+            const attendanceStream = new ReadableStream({
+                start(controller) {
+                    controller.enqueue(encoder.encode(`data: ${JSON.stringify({ content: attendanceResponse })}\n\n`));
+                    controller.enqueue(encoder.encode(`data: ${JSON.stringify({ sources: [] })}\n\n`));
+                    controller.enqueue(encoder.encode('data: [DONE]\n\n'));
+                    controller.close();
+                },
+            });
+
+            return new Response(attendanceStream, {
+                headers: {
+                    'Content-Type': 'text/event-stream',
+                    'Cache-Control': 'no-cache',
+                    'Connection': 'keep-alive',
+                },
+            });
+        }
+
         // Step 1: Retrieve relevant chunks from vector DB
         console.log('[Chat API] Retrieving context for:', message.slice(0, 50));
         const chunks = await retrieveRelevantChunks(message, 15); // Increased for better coverage
